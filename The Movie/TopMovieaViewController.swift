@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Kingfisher
 
 class TopMovieaViewController: UIViewController {
 
@@ -38,9 +39,10 @@ class TopMovieaViewController: UIViewController {
                     do {
                         let RecivedMovies = try? JSONDecoder().decode([Movie].self, from: datas!)
                         for NextMovie in RecivedMovies! {
+                            if NextMovie.title != self.MoviesArray.last?.title{
                             self.MoviesArray.append(NextMovie)
+                            }
                         }
-                        print(self.MoviesArray)
                         self.tableview.isHidden = false
                         self.tableview.reloadData()
                     }
@@ -55,25 +57,27 @@ class TopMovieaViewController: UIViewController {
         
     }
     
+//
+//    func DawnloadImage(ImageUrl : String) -> UIImage {
+//        let FullImageUrl = "https://image.tmdb.org/t/p/w185/\(ImageUrl)?api_key=a619ffd371a3fc63c02faefe0478df7d"
+//        var DesiredImage = #imageLiteral(resourceName: "star (1)")
+//            URLSession.shared.dataTask(with: NSURL(string: FullImageUrl)! as URL, completionHandler: { (data, response, error) -> Void in
+//                if error != nil {
+//                    print(error)
+//                    return
+//                }
+//                DispatchQueue.main.async(execute: { () -> Void in
+//                    let ReturnedImage = UIImage(data: data!)
+//                    DesiredImage = ReturnedImage ?? #imageLiteral(resourceName: "clapperboard")
+//                    self.tableview.reloadData()
+//                 }
+//                )
+//            }).resume()
+//            return DesiredImage
+//        }
     
-    func DawnloadImage(ImageUrl : String) -> UIImage {
-        let FullImageUrl = "https://image.tmdb.org/t/p/w185/\(ImageUrl)?api_key=a619ffd371a3fc63c02faefe0478df7d"
-        var DesiredImage = #imageLiteral(resourceName: "star (1)")
-            URLSession.shared.dataTask(with: NSURL(string: FullImageUrl)! as URL, completionHandler: { (data, response, error) -> Void in
-                if error != nil {
-                    print(error)
-                    return
-                }
-                DispatchQueue.main.async(execute: { () -> Void in
-                    let ReturnedImage = UIImage(data: data!)
-                    DesiredImage = ReturnedImage ?? #imageLiteral(resourceName: "clapperboard")
-                 }
-                )
-                
-                
-            }).resume()
-            return DesiredImage
-        }
+   
+    
     }
     
 
@@ -84,13 +88,23 @@ extension TopMovieaViewController : UITableViewDataSource , UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell
+        if MoviesArray.isEmpty{
+        }else{
+            print(MoviesArray[indexPath.row].title)
         cell?.ConfigurationCell(
             Name: MoviesArray[indexPath.row].title ?? "Title Not Avaliable" ,
             Rate: MoviesArray[indexPath.row].voteAverage ?? 0.0,
-            RelaseDate: MoviesArray[indexPath.row].releaseDate ?? "Relase Date Not Avialble",
-            Poster: DawnloadImage(ImageUrl: MoviesArray[indexPath.row].posterPath ?? ""))
+            RelaseDate: MoviesArray[indexPath.row].releaseDate ?? "Relase Date Not Avialble")
+            let imageURL = MoviesArray[indexPath.row].posterPath
+            let ImageFullUrl :URL =  URL(string:  "https://image.tmdb.org/t/p/w185/\(imageURL ?? "")?api_key=a619ffd371a3fc63c02faefe0478df7d")!
+          //  let Test = URL(string: "https://image.tmdb.org/t/p/w185//uC6TTUhPpQCmgldGyYveKRAu8JN.jpg?api_key=a619ffd371a3fc63c02faefe0478df7d%22")
+            cell?.imgViewMoviePoster.kf.setImage(with: ImageFullUrl)
+        }
         return cell!
     }
     
 }
+
+
+
 

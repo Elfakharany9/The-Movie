@@ -11,5 +11,6 @@ target 'The Movie' do
 
 pod 'Alamofire'
 pod 'SwiftyJSON'
+pod 'Kingfisher'
 
 end

@@ -21,8 +21,7 @@ class MovieTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    func ConfigurationCell(Name: String , Rate : Double , RelaseDate : String , Poster : UIImage ){
-        self.imgViewMoviePoster.image = Poster
+    func ConfigurationCell(Name: String , Rate : Double , RelaseDate : String ){
         self.lblMovieRelaseDate.text = RelaseDate
         self.txtFieldMovieName.text = Name
         self.LblRate.text = String(Rate)
