@@ -91,6 +91,8 @@ extension TopMovieaViewController : UITableViewDataSource , UITableViewDelegate 
             let ImageFullUrl :URL =  URL(string:  "https://image.tmdb.org/t/p/w185/\(imageURL ?? "")?api_key=a619ffd371a3fc63c02faefe0478df7d")!
             cell?.imgViewMoviePoster.kf.setImage(with: ImageFullUrl)
         }
+        
+ 
         return cell!
     }
     

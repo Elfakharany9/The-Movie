@@ -21,12 +21,10 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         GetTokenWithAlamoFire()
-     //   LoginWithAlamofire()
     }
     
     
     func GetTokenWithAlamoFire(){
-      //  let Url = "https://api.themoviedb.org/3/authentication/token/new?api_key=9f0771d05e64408e58984759f7f759a2"
         let Url = Urls.GetToken
         Alamofire.request(Url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             switch(response.result) {
@@ -47,8 +45,6 @@ class LoginViewController: UIViewController {
     }//ENDGETTINGTOKEN
     
     func loginwithSessions(username : String , password : String){
-//        var request = URLRequest(url: URL(string: "https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=9f0771d05e64408e58984759f7f759a2&request_token=\(Token)")!)
-        
         var request = URLRequest(url: URL(string: Urls.loginUrl+Token)!)
         print(request)
         request.httpMethod = "POST"
@@ -65,14 +61,16 @@ class LoginViewController: UIViewController {
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
      self.showAlert(title: "Login Failed", message: "Username or password Worng")
             }
+            
             do{
                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as? [String: Any]
                 if let success = try jsonResponse?["success"] {
                     let request_token = jsonResponse?["request_token"]
                     print("RequestTokenAfterSucess\(request_token ?? "NoRequesToken")")
-                    self.performSegue(withIdentifier: "ValidLogin", sender: nil)
-                    
-                    
+                }
+                DispatchQueue.main.async {
+                  self.performSegue(withIdentifier: "ValidLogin", sender: nil)
+                    helper.saveUsername(username: username)
                 }
             }catch _ {
                 self.showAlert(title: "Some Thing Got Wrong", message: "Plese Login Again")

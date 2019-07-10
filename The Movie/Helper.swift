@@ -22,13 +22,14 @@ class helper: NSObject {
         UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil)
     }
     
-//    class func dleteAPIToken() {
-//    let def = UserDefaults.standard
-//    def.removeObject(forKey: "user_token")
-//    def.synchronize()
-//
-//    restartApp()
-//}
+    class func dleteAPIToken() {
+    let def = UserDefaults.standard
+    def.removeObject(forKey: "user")
+    def.set(false, forKey: "userExsit")
+    def.synchronize()
+
+    restartApp()
+}
 
     class func UserExsit() {
         let def = UserDefaults.standard
@@ -37,12 +38,19 @@ class helper: NSObject {
         restartApp()
     }
     
-//class func saveAPIUser() {
-//    let def = UserDefaults.standard
-//    def.setValue(User, forKey: "user")
-//    def.synchronize()
-//    restartApp()
-//}
+    class func saveUsername(username: String) {
+    let def = UserDefaults.standard
+    def.setValue(username, forKey: "user")
+    def.synchronize()
+    restartApp()
+}
+    
+    class func loadUsername()-> String {
+        let def = UserDefaults.standard
+        let user = def.object(forKey: "user") as? String
+        def.synchronize()
+        return user ?? ""
+    }
 
     class  func IsUserExsit() -> (Bool?) {
     let def = UserDefaults.standard
