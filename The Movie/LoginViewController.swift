@@ -14,29 +14,58 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var TxtFieldUsername: UITextField!
     @IBOutlet weak var TxtFieldPassword: UITextField!
-    
     @IBOutlet weak var BtnLogin: UIButton!
+    
+    var Token = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        GetTokenWithAlamoFire()
+     //   LoginWithAlamofire()
     }
     
-    func LoginWithAlamofire (username:String , password:String){
-        
-        let url = "https://api.us.onelogin.com/auth/oauth2/token"
-        
-        let parameters: [String: String] = [
-            "grant_type" :  "client_credentials"
+    
+    func GetTokenWithAlamoFire(){
+        let Url = "https://api.themoviedb.org/3/authentication/token/new?api_key=9f0771d05e64408e58984759f7f759a2"
+        Alamofire.request(Url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            switch(response.result) {
+            case .success(_):
+                if let data = response.result.value{
+                    // print(response.result.value)
+                    let json = JSON(data)
+                    let RecivedToken = json["request_token"].stringValue
+                    self.Token = RecivedToken
+                    print(self.Token)
+                }
+                break
+            case .failure(_):
+                print(response.result.error!)
+                break
+            }
+        }
+    }//ENDGETTINGTOKEN
+    
+    func LoginWithAlamofire(){
+    
+        let headers = ["content-type": "application/json"]
+        let parameters : Parameters = [
+            "username": "johnny_appleseed",
+            "password": "test123",
+            "request_token": self.Token
         ]
         
-        let header : [String: String] = [
-            "Content-Type" : "application/json",
-            "Authorization" : "client_id"
-        ]
+        print(self.Token)
+       let LoginUrl = "https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=9f0771d05e64408e58984759f7f759a2"
         
-    }///ENDLOGINFUNC
+        Alamofire.request(LoginUrl, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers).responseJSON { (response) in
+            print(response)
+        }
+        
+    }//ENDLOGINWITHALAMOFIRE
+    
     
     @IBAction func BtnLoginAct(_ sender: Any) {
+        LoginWithAlamofire()
     }
     
 
