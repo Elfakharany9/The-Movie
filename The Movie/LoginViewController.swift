@@ -69,8 +69,13 @@ class LoginViewController: UIViewController {
                     print("RequestTokenAfterSucess\(request_token ?? "NoRequesToken")")
                 }
                 DispatchQueue.main.async {
+                      helper.saveUsername(username: username)
+                        helper.UserExsit()
+                    if helper.IsUserExsit()!{
+                        print("DoneSaving")
+                    }
                   self.performSegue(withIdentifier: "ValidLogin", sender: nil)
-                    helper.saveUsername(username: username)
+                  
                 }
             }catch _ {
                 self.showAlert(title: "Some Thing Got Wrong", message: "Plese Login Again")
