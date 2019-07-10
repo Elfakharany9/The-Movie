@@ -22,6 +22,10 @@ class MovieTableViewCell: UITableViewCell {
     }
 
     func ConfigurationCell(Name: String , Rate : Double , RelaseDate : String ){
+        
+        let TextFeildHeight = self.txtFieldMovieName.optimalHeight
+        self.txtFieldMovieName.frame =  CGRect(x: txtFieldMovieName.frame.origin.x, y: txtFieldMovieName.frame.origin.y, width: txtFieldMovieName.frame.width, height: TextFeildHeight)
+        self.txtFieldMovieName.numberOfLines = 0
         self.lblMovieRelaseDate.text = RelaseDate
         self.txtFieldMovieName.text = Name
         self.LblRate.text = String(Rate)
@@ -34,4 +38,20 @@ class MovieTableViewCell: UITableViewCell {
         
     }
 
+}
+
+extension UILabel {
+    var optimalHeight : CGFloat {
+        get
+        {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: CGFloat.greatestFiniteMagnitude))
+            label.numberOfLines = 0
+            label.lineBreakMode = NSLineBreakMode.byWordWrapping
+            label.font = self.font
+            label.text = self.text
+            label.sizeToFit()
+            return label.frame.height
+        }
+        
+    }
 }
