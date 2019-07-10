@@ -13,7 +13,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="The_Movie" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginView" id="BYZ-38-t0r" customClass="LoginViewController" customModule="The_Movie" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -67,6 +67,7 @@
                         <outlet property="BtnLogin" destination="268-tr-vce" id="X8V-id-wDU"/>
                         <outlet property="TxtFieldPassword" destination="sEe-EN-KMA" id="Xqo-rI-IJR"/>
                         <outlet property="TxtFieldUsername" destination="J05-ki-705" id="vW9-ZZ-5v1"/>
+                        <segue destination="7D5-9y-NE4" kind="show" identifier="ValidLogin" id="Vbe-fZ-1fg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -322,7 +323,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="zbM-hP-v8L">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="7D5-9y-NE4" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="Home" automaticallyAdjustsScrollViewInsets="NO" id="7D5-9y-NE4" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7kV-qA-k1d">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

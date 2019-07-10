@@ -26,7 +26,8 @@ class LoginViewController: UIViewController {
     
     
     func GetTokenWithAlamoFire(){
-        let Url = "https://api.themoviedb.org/3/authentication/token/new?api_key=9f0771d05e64408e58984759f7f759a2"
+      //  let Url = "https://api.themoviedb.org/3/authentication/token/new?api_key=9f0771d05e64408e58984759f7f759a2"
+        let Url = Urls.GetToken
         Alamofire.request(Url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             switch(response.result) {
             case .success(_):
@@ -45,27 +46,50 @@ class LoginViewController: UIViewController {
         }
     }//ENDGETTINGTOKEN
     
-    func LoginWithAlamofire(){
-    
-        let headers = ["content-type": "application/json"]
-        let parameters : Parameters = [
-            "username": "johnny_appleseed",
-            "password": "test123",
-            "request_token": self.Token
-        ]
+    func loginwithSessions(username : String , password : String){
+//        var request = URLRequest(url: URL(string: "https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=9f0771d05e64408e58984759f7f759a2&request_token=\(Token)")!)
         
-        print(self.Token)
-       let LoginUrl = "https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=9f0771d05e64408e58984759f7f759a2"
-        
-        Alamofire.request(LoginUrl, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers).responseJSON { (response) in
-            print(response)
+        var request = URLRequest(url: URL(string: Urls.loginUrl+Token)!)
+        print(request)
+        request.httpMethod = "POST"
+        let postString = "username=\(username)&password=\(password)"
+        request.httpBody = postString.data(using: .utf8)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                self.showAlert(title: "Connection Error ", message: "Check Connection and Try Again")
+                self.GetTokenWithAlamoFire()
+                return
+            }
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+     self.showAlert(title: "Login Failed", message: "Username or password Worng")
+            }
+            do{
+                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as? [String: Any]
+                if let success = try jsonResponse?["success"] {
+                    let request_token = jsonResponse?["request_token"]
+                    print("RequestTokenAfterSucess\(request_token ?? "NoRequesToken")")
+                    self.performSegue(withIdentifier: "ValidLogin", sender: nil)
+                    
+                    
+                }
+            }catch _ {
+                self.showAlert(title: "Some Thing Got Wrong", message: "Plese Login Again")
+                self.GetTokenWithAlamoFire()
+            }
         }
-        
-    }//ENDLOGINWITHALAMOFIRE
-    
+        task.resume()
+    }//ENDLOGINWITHSESSION
     
     @IBAction func BtnLoginAct(_ sender: Any) {
-        LoginWithAlamofire()
+        let username = self.TxtFieldUsername.text
+        let password = self.TxtFieldPassword.text
+        if (username != ""  && password !=  ""){
+            loginwithSessions(username: username!, password: password!)
+        }else{
+               self.showAlert(title: "Login Failed", message: "Username or password Worng")
+        }
     }
     
 
