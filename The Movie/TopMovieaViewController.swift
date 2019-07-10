@@ -15,7 +15,7 @@ class TopMovieaViewController: UIViewController {
 
     @IBOutlet weak var tableview: UITableView!
     var MoviesArray = [Movie]()
-    
+    var CurrentPage = 1
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.dataSource = self
@@ -47,6 +47,7 @@ class TopMovieaViewController: UIViewController {
     
     func FetchMoviesWithAlamoFire(Page : Int){
         let Url =  "http://api.themoviedb.org/3/movie/top_rated?api_key=a619ffd371a3fc63c02faefe0478df7d&page=\(Page)"
+        print("TheRequest\(Url)")
         Alamofire.request(Url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { response in
             switch response.result
             {
@@ -91,6 +92,15 @@ extension TopMovieaViewController : UITableViewDataSource , UITableViewDelegate 
             cell?.imgViewMoviePoster.kf.setImage(with: ImageFullUrl)
         }
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == MoviesArray.count - 1 {
+            FetchMoviesWithAlamoFire(Page: CurrentPage + 1)
+            CurrentPage += 1
+            tableView.reloadData()
+        }
+
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
