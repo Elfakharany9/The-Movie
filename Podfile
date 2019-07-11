@@ -12,5 +12,5 @@ target 'The Movie' do
 pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'Kingfisher'
-
+pod 'ReachabilitySwift'
 end

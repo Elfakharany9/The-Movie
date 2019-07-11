@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import Kingfisher
+import Reachability
 
 class TopMovieaViewController: UIViewController {
 
@@ -64,8 +65,10 @@ class TopMovieaViewController: UIViewController {
                 } catch {}
             case .failure(_):
                 self.showAlertAction(title: "Some thing Got Wrong ..", message: "Check Your Connection")
+                if self.MoviesArray.isEmpty{}else{
                 let indexPath = IndexPath(item: (self.LastIndexpathForCell?.row)! - 1, section: 0)
                 self.tableview.scrollToRow(at: indexPath, at: .none, animated: false)
+                }
             }
         }
     }

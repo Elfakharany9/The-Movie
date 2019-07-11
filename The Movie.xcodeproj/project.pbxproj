@@ -77,22 +77,46 @@
 		96847ED922D4E1AD00C13396 /* The Movie */ = {
 			isa = PBXGroup;
 			children = (
+				96DEC0DE22D6DBC100AF108B /* model */,
+				96DEC0DD22D6DBA300AF108B /* View */,
+				96DEC0DC22D6DB5D00AF108B /* Controller */,
 				96847EDA22D4E1AD00C13396 /* AppDelegate.swift */,
 				96847EDE22D4E1AD00C13396 /* Main.storyboard */,
 				96847EE122D4E1B000C13396 /* Assets.xcassets */,
 				96847EE322D4E1B000C13396 /* LaunchScreen.storyboard */,
 				96847EE622D4E1B000C13396 /* Info.plist */,
-				96847EEC22D4F7AB00C13396 /* LoginViewController.swift */,
-				96DFD8C222D50F9100CFCC91 /* Url.swift */,
-				96DFD8C422D51D1200CFCC91 /* TopMovieaViewController.swift */,
-				96DFD8C822D522C500CFCC91 /* MovieTableViewCell.swift */,
-				96DFD8CA22D525D400CFCC91 /* MovieModel.swift */,
-				96CEED5E22D5A49300CF057A /* FullMovieViewController.swift */,
-				96CEED6022D6152D00CF057A /* ShowAlaret.swift */,
-				96CEED6222D62D8D00CF057A /* Helper.swift */,
-				96CEED6422D6647700CF057A /* ProfileViewController.swift */,
 			);
 			path = "The Movie";
+			sourceTree = "<group>";
+		};
+		96DEC0DC22D6DB5D00AF108B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				96847EEC22D4F7AB00C13396 /* LoginViewController.swift */,
+				96DFD8C422D51D1200CFCC91 /* TopMovieaViewController.swift */,
+				96CEED5E22D5A49300CF057A /* FullMovieViewController.swift */,
+				96CEED6422D6647700CF057A /* ProfileViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		96DEC0DD22D6DBA300AF108B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				96CEED6022D6152D00CF057A /* ShowAlaret.swift */,
+				96DFD8C822D522C500CFCC91 /* MovieTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		96DEC0DE22D6DBC100AF108B /* model */ = {
+			isa = PBXGroup;
+			children = (
+				96DFD8C222D50F9100CFCC91 /* Url.swift */,
+				96DFD8CA22D525D400CFCC91 /* MovieModel.swift */,
+				96CEED6222D62D8D00CF057A /* Helper.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		A7A9CA9746C2C29D3E2B582C /* Pods */ = {
@@ -190,12 +214,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-The Movie/Pods-The Movie-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

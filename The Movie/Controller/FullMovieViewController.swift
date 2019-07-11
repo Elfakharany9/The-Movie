@@ -28,12 +28,21 @@ class FullMovieViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         if CurrentMovie != nil && CurrentMoviePoster != nil{
         ConfigureView(SelectedMovie: CurrentMovie!, MoviePoster: CurrentMoviePoster!)
         }else{
            self.showAlertAction(title: "Oops", message: "Something Got Wrong")
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        LblOverview.isScrollEnabled = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        LblOverview.isScrollEnabled = true
     }
 
     func ConfigureView( SelectedMovie : Movie , MoviePoster : UIImage ){
@@ -43,7 +52,6 @@ class FullMovieViewController: UIViewController {
         self.LblLanguege.text = SelectedMovie.originalLanguage
         self.LblOverview.text = SelectedMovie.overview
         self.LblRelaseDate.text = SelectedMovie.releaseDate
-                print("Here\(CurrentMovie?.overview)")
     }
     
 }

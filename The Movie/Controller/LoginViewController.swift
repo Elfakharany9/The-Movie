@@ -9,20 +9,45 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Reachability
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController  {
 
     @IBOutlet weak var TxtFieldUsername: UITextField!
     @IBOutlet weak var TxtFieldPassword: UITextField!
     @IBOutlet weak var BtnLogin: UIButton!
+    @IBOutlet weak var Stack: UIStackView!
     
     var Token = ""
+    var ActiveConnection = true
+    let reachability = Reachability()!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        GetTokenWithAlamoFire()
-    }
+        
+        TxtFieldPassword.delegate = self
+        TxtFieldUsername.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(InternetChanged), name: Notification.Name.reachabilityChanged, object: reachability)
+        do{
+            try reachability.startNotifier()
+        }catch{}
+        }
     
+    @objc func InternetChanged(note : Notification) {
+        let reachability = note.object as! Reachability
+        if reachability.connection != .none {
+            self.ActiveConnection = true
+            GetTokenWithAlamoFire()
+            print(ActiveConnection)
+        }else{
+            self.ActiveConnection = false
+              self.showAlert(title: "Connection Error ", message: "Check Connection and Try Again")
+            print(ActiveConnection)
+        }
+    }
+
+
     
     func GetTokenWithAlamoFire(){
         let Url = Urls.GetToken
@@ -69,13 +94,9 @@ class LoginViewController: UIViewController {
                     print("RequestTokenAfterSucess\(request_token ?? "NoRequesToken")")
                 }
                 DispatchQueue.main.async {
-                      helper.saveUsername(username: username)
-                        helper.UserExsit()
-                    if helper.IsUserExsit()!{
-                        print("DoneSaving")
-                    }
-                  self.performSegue(withIdentifier: "ValidLogin", sender: nil)
-                  
+                    helper.saveUsername(username: username)
+                    helper.UserExsit()
+                    self.performSegue(withIdentifier: "ValidLogin", sender: nil)
                 }
             }catch _ {
                 self.showAlert(title: "Some Thing Got Wrong", message: "Plese Login Again")
@@ -86,6 +107,7 @@ class LoginViewController: UIViewController {
     }//ENDLOGINWITHSESSION
     
     @IBAction func BtnLoginAct(_ sender: Any) {
+        if self.ActiveConnection == true {
         let username = self.TxtFieldUsername.text
         let password = self.TxtFieldPassword.text
         if (username != ""  && password !=  ""){
@@ -93,7 +115,23 @@ class LoginViewController: UIViewController {
         }else{
                self.showAlert(title: "Login Failed", message: "Username or password Worng")
         }
+        }else{
+              self.showAlert(title: "Connection Error ", message: "Check Connection and Try Again")
+        }
+    }
+
+}
+    extension LoginViewController : UITextFieldDelegate{
+        
+        // keyboard down
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+        }
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            self.view.endEditing(true)
+            
+            return true
+        }
     }
     
 
-}

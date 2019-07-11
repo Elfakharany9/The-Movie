@@ -14,7 +14,7 @@ class helper: NSObject {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         var vc: UIViewController
         if IsUserExsit() == true  {
-            vc = sb.instantiateInitialViewController()!
+            vc = sb.instantiateViewController(withIdentifier: "Home")
         }else {
             vc = sb.instantiateViewController(withIdentifier: "LoginView")
         }
